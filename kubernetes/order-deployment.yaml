@@ -16,15 +16,25 @@ spec:
     spec:
       containers:
       - name: order-service
-        image: your-dockerhub-username/order-service:latest
+        image: aminenachit/order-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8001
         env:
         - name: DATABASE_URL
-          value: "postgresql://ecommerce_user:ecommerce_pass@postgres-service:5432/ecommerce_db"
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: DATABASE_URL
         - name: PRODUCT_SERVICE_URL
           value: "http://product-service:8000"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
         livenessProbe:
           httpGet:
             path: /health

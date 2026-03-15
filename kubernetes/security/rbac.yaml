@@ -1,0 +1,70 @@
+# =============================================================================
+# RBAC - Contrôle d'accès basé sur les rôles pour le cluster
+# =============================================================================
+
+# Namespace dédié pour l'application
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ecommerce
+  labels:
+    app: ecommerce
+
+---
+
+# ServiceAccount pour les microservices
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ecommerce-service-account
+  namespace: ecommerce
+  labels:
+    app: ecommerce
+
+---
+
+# Rôle : permissions limitées pour les pods applicatifs
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ecommerce-role
+  namespace: ecommerce
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get"]
+
+---
+
+# RoleBinding : lier le rôle au ServiceAccount
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ecommerce-role-binding
+  namespace: ecommerce
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ecommerce-role
+subjects:
+  - kind: ServiceAccount
+    name: ecommerce-service-account
+    namespace: ecommerce
+
+---
+
+# ClusterRole pour le monitoring (lecture seule)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ecommerce-monitoring
+rules:
+  - apiGroups: [""]
+    resources: ["nodes", "pods", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["pods", "nodes"]
+    verbs: ["get", "list"]

@@ -16,7 +16,14 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: your-dockerhub-username/ecommerce-frontend:latest
+        image: aminenachit/ecommerce-frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "150m"

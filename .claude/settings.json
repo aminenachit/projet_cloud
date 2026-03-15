@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(minikube addons:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl get:*)",
+      "Bash(ls \"c:/Users/amine/Desktop/mes docs/efrei/cours s9/integration cloud/projet_cloud/\"*.png)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\amine\\Desktop\\mes docs\\efrei\\cours s9\\integration cloud\\projet_cloud"
+    ]
+  }
+}

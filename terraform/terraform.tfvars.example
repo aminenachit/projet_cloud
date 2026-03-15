@@ -1,0 +1,12 @@
+# =============================================================================
+# Exemple de variables - Copier en terraform.tfvars et personnaliser
+# =============================================================================
+
+project_id     = "mon-projet-gcp-123456"
+region         = "europe-west1"
+zone           = "europe-west1-b"
+cluster_name   = "ecommerce-cluster"
+node_count     = 2
+max_node_count = 4
+machine_type   = "e2-medium"
+environment    = "production"
